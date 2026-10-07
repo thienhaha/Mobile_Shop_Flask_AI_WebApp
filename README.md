@@ -40,7 +40,7 @@ Mỗi sản phẩm hiển thị:
 - Giá mới
 - Phần trăm giảm giá
 - Tình trạng tồn kho
-- Nút **Thêm vào giỏ**
+- Nút **Thêm vào giỏ**git status
 
 ###  Trang chi tiết sản phẩm
 
