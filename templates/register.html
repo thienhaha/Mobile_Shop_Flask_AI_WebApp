@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Đăng ký{% endblock %}
+{% block content %}
+<div class="auth-wrap"><form class="auth-card" method="post"><h1>Tạo tài khoản</h1>
+<label>Họ và tên<input name="full_name" required></label>
+<label>Email<input name="email" type="email" required></label>
+<label>Số điện thoại<input name="phone"></label>
+<label>Mật khẩu<input name="password" type="password" minlength="6" required></label>
+<button class="btn primary full">Đăng ký</button>
+<p>Đã có tài khoản? <a href="{{ url_for('login') }}">Đăng nhập</a></p></form></div>
+{% endblock %}

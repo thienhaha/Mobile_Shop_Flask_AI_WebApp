@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Giỏ hàng{% endblock %}
+{% block content %}
+<div class="container page"><h1>🛒 Giỏ hàng</h1>
+{% if items %}
+<form method="post" action="{{ url_for('update_cart') }}">
+<div class="cart-layout"><div>
+{% for p, qty, subtotal in items %}
+<div class="cart-item"><div class="mini-phone">📱</div><div class="cart-info"><h3>{{ p.name }}</h3><p>{{ "{:,.0f}".format(p.price) }}đ</p></div>
+<input name="qty_{{ p.id }}" type="number" min="1" max="{{ p.stock }}" value="{{ qty }}">
+<div class="price">{{ "{:,.0f}".format(subtotal) }}đ</div><a href="{{ url_for('remove_cart', product_id=p.id) }}">Xóa</a></div>
+{% endfor %}
+<button class="btn">Cập nhật giỏ hàng</button></div>
+<aside class="summary"><h2>Tổng đơn</h2><div class="summary-row"><span>Tạm tính</span><strong>{{ "{:,.0f}".format(total) }}đ</strong></div><a class="btn primary full" href="{{ url_for('checkout') }}">Tiến hành đặt hàng</a></aside></div>
+</form>
+{% else %}<div class="empty"><h2>Giỏ hàng đang trống</h2><a class="btn primary" href="{{ url_for('products') }}">Mua sắm ngay</a></div>{% endif %}
+</div>
+{% endblock %}

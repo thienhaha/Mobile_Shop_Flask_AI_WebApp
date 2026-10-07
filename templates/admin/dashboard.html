@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block admin_content %}
+<h1>Dashboard</h1>
+<div class="stats">
+<div class="stat"><span>Sản phẩm</span><strong>{{ product_count }}</strong></div>
+<div class="stat"><span>Đơn hàng</span><strong>{{ order_count }}</strong></div>
+<div class="stat"><span>Khách hàng</span><strong>{{ customer_count }}</strong></div>
+<div class="stat"><span>Doanh thu</span><strong>{{ "{:,.0f}".format(revenue) }}đ</strong></div>
+</div>
+<div class="admin-grid">
+<div class="panel"><h2>Doanh thu & số lượng theo hãng</h2><table><tr><th>Hãng</th><th>Số lượng bán</th><th>Doanh thu</th></tr>
+{% for brand, qty, rev in brand_stats %}<tr><td>{{ brand }}</td><td>{{ qty }}</td><td>{{ "{:,.0f}".format(rev) }}đ</td></tr>{% endfor %}</table></div>
+<div class="panel"><h2>Đơn gần đây</h2>{% for o in recent_orders %}<p>#{{ o.id }} · {{ o.receiver_name }} · <b>{{ "{:,.0f}".format(o.total) }}đ</b></p>{% endfor %}</div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Mobile Shop{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="{{ url_for('home') }}"><span>📱</span> MOBILE SHOP</a>
+    <nav>
+      <a href="{{ url_for('home') }}">Trang chủ</a>
+      <a href="{{ url_for('products') }}">Điện thoại</a>
+      <a href="{{ url_for('products', sort='rating') }}">Bán chạy</a>
+      {% if current_user and current_user.role == 'admin' %}
+        <a href="{{ url_for('admin_dashboard') }}">Quản trị</a>
+      {% endif %}
+    </nav>
+    <form class="search" action="{{ url_for('products') }}">
+      <input name="q" placeholder="Tìm kiếm điện thoại..." value="{{ request.args.get('q','') }}">
+      <button>🔍</button>
+    </form>
+    <a class="cart-link" href="{{ url_for('cart') }}">🛒 <span>{{ cart_count }}</span></a>
+    {% if current_user %}
+      <a class="user-link" href="{{ url_for('account') }}">👤 {{ current_user.full_name.split()[0] }}</a>
+      <a href="{{ url_for('logout') }}">Đăng xuất</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Đăng nhập</a>
+    {% endif %}
+  </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="container flashes">
+  {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div><h3>📱 MOBILE SHOP</h3><p>Điện thoại chính hãng · Giá tốt · Bảo hành uy tín.</p></div>
+    <div><h4>Hỗ trợ</h4><p>Chính sách đổi trả</p><p>Hướng dẫn mua hàng</p></div>
+    <div><h4>Liên hệ</h4><p>Hotline: 1900 9999</p><p>Email: support@mobileshop.vn</p></div>
+  </div>
+</footer>
+
+<button id="chatToggle" class="chat-toggle">🤖</button>
+<div id="chatBox" class="chatbox hidden">
+  <div class="chat-head">🤖 AI Mobile Shop <button onclick="toggleChat()">×</button></div>
+  <div id="chatMessages" class="chat-messages">
+    <div class="bot bubble">Xin chào! Bạn cần điện thoại khoảng bao nhiêu tiền, ưu tiên camera hay chơi game?</div>
+  </div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Ví dụ: Tôi có 15 triệu...">
+    <button onclick="sendChat()">➤</button>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

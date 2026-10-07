@@ -1,0 +1,8 @@
+{% extends "admin/base.html" %}
+{% block title %}Quản lý đơn hàng{% endblock %}
+{% block admin_content %}
+<h1>Quản lý đơn hàng</h1>
+<div class="panel"><form class="search-line"><input name="q" placeholder="Mã đơn..."><select name="status"><option value="">Tất cả</option><option value="pending">Chờ duyệt</option><option value="confirmed">Đã duyệt</option><option value="shipping">Đang giao</option><option value="completed">Hoàn thành</option><option value="cancelled">Đã hủy</option></select><button class="btn">Lọc</button></form>
+<table><tr><th>Mã</th><th>Khách hàng</th><th>Tổng</th><th>Ngày</th><th>Trạng thái</th><th>Cập nhật</th></tr>
+{% for o in orders %}<tr><td>#{{ o.id }}</td><td>{{ o.receiver_name }}<br>{{ o.phone }}</td><td>{{ "{:,.0f}".format(o.total) }}đ</td><td>{{ o.created_at.strftime('%d/%m/%Y') }}</td><td>{{ o.status }}</td><td><form method="post" action="{{ url_for('admin_order_status', order_id=o.id) }}"><select name="status"><option value="pending">Chờ duyệt</option><option value="confirmed">Đã duyệt</option><option value="shipping">Đang giao</option><option value="completed">Hoàn thành</option><option value="cancelled">Đã hủy</option></select><button class="btn small">Lưu</button></form></td></tr>{% endfor %}</table></div>
+{% endblock %}

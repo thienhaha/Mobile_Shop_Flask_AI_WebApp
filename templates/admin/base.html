@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2>⚙️ ADMIN</h2>
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin_products') }}">Quản lý sản phẩm</a>
+    <a href="{{ url_for('admin_orders') }}">Quản lý đơn hàng</a>
+    <a href="{{ url_for('admin_customers') }}">Quản lý khách hàng</a>
+    <a href="{{ url_for('home') }}">← Về website</a>
+  </aside>
+  <section class="admin-content">{% block admin_content %}{% endblock %}</section>
+</div>
+{% endblock %}

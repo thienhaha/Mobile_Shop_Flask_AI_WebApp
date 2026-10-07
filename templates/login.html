@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Đăng nhập{% endblock %}
+{% block content %}
+<div class="auth-wrap"><form class="auth-card" method="post"><h1>Đăng nhập</h1><p class="muted">Chào mừng bạn trở lại Mobile Shop.</p>
+<label>Email<input name="email" type="email" required></label>
+<label>Mật khẩu<input name="password" type="password" required></label>
+<button class="btn primary full">Đăng nhập</button>
+<p>Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký</a></p></form></div>
+{% endblock %}

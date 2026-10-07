@@ -1,0 +1,8 @@
+{% extends "admin/base.html" %}
+{% block title %}Quản lý khách hàng{% endblock %}
+{% block admin_content %}
+<h1>Quản lý khách hàng</h1>
+<div class="panel"><form class="search-line"><input name="q" placeholder="Tên, email, số điện thoại..."><button class="btn">Tìm</button></form>
+<table><tr><th>ID</th><th>Họ tên</th><th>Email</th><th>SĐT</th><th>Trạng thái</th><th>Thao tác</th></tr>
+{% for u in customers %}<tr><td>{{ u.id }}</td><td>{{ u.full_name }}</td><td>{{ u.email }}</td><td>{{ u.phone }}</td><td>{{ "Bị khóa" if u.is_locked else "Hoạt động" }}</td><td><form method="post" action="{{ url_for('admin_customer_toggle', user_id=u.id) }}"><button class="btn small">{{ "Mở khóa" if u.is_locked else "Khóa" }}</button></form></td></tr>{% endfor %}</table></div>
+{% endblock %}

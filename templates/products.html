@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Điện thoại - Mobile Shop{% endblock %}
+{% block content %}
+<div class="container page">
+  <div class="page-title"><h1>Điện thoại</h1><p>{{ products|length }} sản phẩm</p></div>
+  <form class="filters" method="get">
+    <input name="q" placeholder="Tên sản phẩm..." value="{{ request.args.get('q','') }}">
+    <select name="brand"><option value="">Tất cả hãng</option>{% for b in brands %}<option value="{{ b }}" {% if request.args.get('brand')==b %}selected{% endif %}>{{ b }}</option>{% endfor %}</select>
+    <input name="min_price" type="number" placeholder="Giá từ" value="{{ request.args.get('min_price','') }}">
+    <input name="max_price" type="number" placeholder="Giá đến" value="{{ request.args.get('max_price','') }}">
+    <select name="sort">
+      <option value="newest">Mới nhất</option><option value="price_asc">Giá thấp → cao</option>
+      <option value="price_desc">Giá cao → thấp</option><option value="rating">Đánh giá cao</option><option value="name">Tên A-Z</option>
+    </select>
+    <button class="btn primary">Lọc</button>
+  </form>
+  <div class="product-grid">
+    {% for p in products %}{% include "_product_card.html" %}{% else %}
+      <div class="empty"><h2>Không tìm thấy sản phẩm</h2><p>Thử thay đổi bộ lọc hoặc từ khóa.</p></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

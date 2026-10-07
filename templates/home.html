@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Mobile Shop - Trang chủ{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="badge">SMARTPHONE CHÍNH HÃNG</span>
+      <h1>Công nghệ mới.<br><span>Giá tốt mỗi ngày.</span></h1>
+      <p>Khám phá điện thoại mới nhất, sản phẩm khuyến mãi và nhận tư vấn bằng AI.</p>
+      <a class="btn primary" href="{{ url_for('products') }}">Xem sản phẩm →</a>
+    </div>
+    <div class="hero-phone"><img src="{{ featured[0].image if featured else 'https://placehold.co/600x600/e0f2fe/2563eb?text=Mobile+Shop' }}" alt="Điện thoại Mobile Shop"></div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="section-head"><h2>🔥 Sản phẩm nổi bật</h2><a href="{{ url_for('products') }}">Xem tất cả →</a></div>
+  <div class="product-grid">
+    {% for p in featured %}{% include "_product_card.html" %}{% endfor %}
+  </div>
+
+  <div class="section-head"><h2>🆕 Sản phẩm mới</h2><a href="{{ url_for('products', sort='newest') }}">Xem tất cả →</a></div>
+  <div class="product-grid">
+    {% for p in newest %}{% include "_product_card.html" %}{% endfor %}
+  </div>
+
+  <div class="section-head"><h2>🏷️ Đang khuyến mãi</h2><a href="{{ url_for('products') }}">Xem tất cả →</a></div>
+  <div class="product-grid">
+    {% for p in sale %}{% include "_product_card.html" %}{% endfor %}
+  </div>
+</div>
+{% endblock %}

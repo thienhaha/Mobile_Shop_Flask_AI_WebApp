@@ -1,0 +1,25 @@
+<article class="product-card">
+  <a href="{{ url_for('product_detail', product_id=p.id) }}" class="product-image">
+    <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy"
+         onerror="this.onerror=null;this.src='https://placehold.co/600x600/f1f5f9/64748b?text=Mobile+Shop';">
+    {% if p.is_sale %}<span class="sale-badge">SALE{% if p.old_price %} - {{ (((p.old_price-p.price)/p.old_price)*100)|round(0)|int }}%{% endif %}</span>{% endif %}
+  </a>
+  <div class="product-body">
+    <div class="muted">{{ p.brand }}</div>
+    <h3><a href="{{ url_for('product_detail', product_id=p.id) }}">{{ p.name }}</a></h3>
+    <div class="rating" aria-label="Đánh giá {{ p.rating }} trên 5">
+      <span class="stars">★★★★★</span> <strong>{{ "%.1f"|format(p.rating) }}</strong>
+      <span>({{ p.reviews }} đánh giá)</span>
+    </div>
+    <div class="price">{{ "{:,.0f}".format(p.price) }}đ</div>
+    {% if p.old_price %}
+      <div class="price-row">
+        <span class="old-price">{{ "{:,.0f}".format(p.old_price) }}đ</span>
+        <span class="discount">-{{ (((p.old_price-p.price)/p.old_price)*100)|round(0)|int }}%</span>
+      </div>
+    {% endif %}
+    <form method="post" action="{{ url_for('add_to_cart', product_id=p.id) }}">
+      <button class="btn full">🛒 Thêm vào giỏ</button>
+    </form>
+  </div>
+</article>

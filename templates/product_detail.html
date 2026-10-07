@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} - Mobile Shop{% endblock %}
+{% block content %}
+<div class="container page">
+  <div class="breadcrumbs"><a href="{{ url_for('home') }}">Trang chủ</a> / <a href="{{ url_for('products') }}">Điện thoại</a> / {{ product.name }}</div>
+
+  <div class="detail">
+    <div class="detail-gallery">
+      <div class="detail-image">
+        <img src="{{ product.image }}" alt="{{ product.name }}"
+             onerror="this.onerror=null;this.src='https://placehold.co/800x800/f1f5f9/64748b?text=Mobile+Shop';">
+        {% if product.is_sale and product.old_price %}
+          <span class="detail-sale">GIẢM {{ (((product.old_price-product.price)/product.old_price)*100)|round(0)|int }}%</span>
+        {% endif %}
+      </div>
+      <div class="gallery-note">Hình ảnh sản phẩm dùng cho mục đích minh họa trong đồ án.</div>
+    </div>
+
+    <div class="detail-info">
+      <div class="muted brand-label">{{ product.brand }}</div>
+      <h1>{{ product.name }}</h1>
+
+      <div class="rating big">
+        <span class="stars">★★★★★</span>
+        <strong>{{ "%.1f"|format(product.rating) }}/5</strong>
+        <span>· {{ product.reviews }} đánh giá</span>
+      </div>
+
+      <div class="detail-price">
+        <span class="price huge">{{ "{:,.0f}".format(product.price) }}đ</span>
+        {% if product.old_price %}
+          <span class="old-price">{{ "{:,.0f}".format(product.old_price) }}đ</span>
+          <span class="discount">-{{ (((product.old_price-product.price)/product.old_price)*100)|round(0)|int }}%</span>
+        {% endif %}
+      </div>
+
+      <p class="detail-description">{{ product.description }}</p>
+
+      <div class="spec-box">
+        <h3>⚙️ Thông số kỹ thuật</h3>
+        {% for spec in product.specs.split(';') %}
+          <div class="spec-item"><span>✓</span>{{ spec.strip() }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="stock-line">
+        <span>🚚 Miễn phí giao hàng toàn quốc</span>
+        <strong>Kho còn {{ product.stock }} sản phẩm</strong>
+      </div>
+
+      <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}" class="buy-row">
+        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" aria-label="Số lượng">
+        <button class="btn primary buy-btn">🛒 Thêm vào giỏ</button>
+        <a class="btn dark" href="{{ url_for('cart') }}">Xem giỏ hàng</a>
+      </form>
+
+      <div class="product-benefits">
+        <div>🛡️ <b>Bảo hành chính hãng</b><small>12 tháng</small></div>
+        <div>↩️ <b>Đổi trả</b><small>7 ngày nếu lỗi</small></div>
+        <div>🔒 <b>Thanh toán an toàn</b><small>COD / chuyển khoản</small></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="review-section">
+    <div class="section-head"><h2>⭐ Đánh giá khách hàng</h2><span class="review-summary">★ {{ "%.1f"|format(product.rating) }}/5 · {{ product.reviews }} đánh giá</span></div>
+    <div class="review-grid">
+      <div class="review-card"><div class="review-top"><b>Nguyễn Minh</b><span>★★★★★</span></div><p>Sản phẩm đẹp, đúng mô tả. Đóng gói cẩn thận và giao hàng nhanh.</p></div>
+      <div class="review-card"><div class="review-top"><b>Hoàng Anh</b><span>★★★★★</span></div><p>Hiệu năng tốt, màn hình đẹp. Nhân viên tư vấn rất nhiệt tình.</p></div>
+      <div class="review-card"><div class="review-top"><b>Trần Nam</b><span>★★★★☆</span></div><p>Giá khuyến mãi tốt, sản phẩm mới và đầy đủ phụ kiện.</p></div>
+    </div>
+  </section>
+
+  <section class="ai-product-advice">
+    <div>
+      <span class="ai-badge">🤖 AI MOBILE SHOP</span>
+      <h2>Chưa biết sản phẩm này có phù hợp?</h2>
+      <p>Hãy hỏi AI về nhu cầu, ngân sách, camera hoặc chơi game. AI sẽ gợi ý sản phẩm phù hợp.</p>
+    </div>
+    <button class="btn primary" onclick="openChatWith('{{ product.name|e }}')">🤖 Hỏi AI về {{ product.name }}</button>
+  </section>
+
+  <div class="section-head"><h2>💡 Sản phẩm tương tự</h2><a href="{{ url_for('products', brand=product.brand) }}">Xem thêm →</a></div>
+  <div class="product-grid">{% for p in related %}{% include "_product_card.html" %}{% endfor %}</div>
+</div>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Tài khoản{% endblock %}
+{% block content %}
+<div class="container page"><h1>👤 Tài khoản</h1><div class="account-card"><h2>{{ current_user.full_name }}</h2><p>{{ current_user.email }}</p><p>{{ current_user.phone }}</p></div><a class="btn primary" href="{{ url_for('orders') }}">Xem lịch sử mua hàng</a></div>
+{% endblock %}
